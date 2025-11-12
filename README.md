@@ -5,6 +5,12 @@ O objetivo é criar um **assistente nutricional inteligente**, capaz de gerar **
 
 ---
 
+# Preview do site
+
+> O site esta atualmente hospedado como prévia na vercel como [agentIA](https://agent-ia-beta.vercel.app)
+
+---
+
 ## 🚀 Visão Geral
 
 O **Agente IA** é um sistema composto por duas partes:
@@ -20,7 +26,7 @@ Atualmente, o site online é a **versão Next.js completa**, contendo a rota `/a
 
 | Camada | Tecnologias |
 |---------|--------------|
-| **Frontend** | Next.js 14, React, TypeScript, Tailwind CSS, Lucide Icons, shadcn/ui, React Markdown |
+| **Frontend** | Next.js 16+, React, TypeScript, Tailwind CSS, Lucide Icons, shadcn/ui, React Markdown |
 | **Backend (integrado)** | Node.js + OpenAI API |
 | **Validação** | Zod |
 | **Hospedagem** | Vercel (frontend) + GitHub (repositório público) |
@@ -128,6 +134,7 @@ A IA consulta internamente esse arquivo para formular respostas coerentes, mas s
 ## 🧩 Rota da API (/api/plan)
 
 A rota utiliza Next.js Route Handlers e retorna o resultado em stream, permitindo que o texto vá aparecendo gradualmente no frontend.
+
 ```
 POST /api/plan
 Content-Type: application/json
@@ -168,6 +175,7 @@ Content-Type: application/json
 
 O texto Markdown é estilizado usando Tailwind e ReactMarkdown.
 Exemplo de formatação no frontend:
+
 ```
 <ReactMarkdown
   components={{
