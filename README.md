@@ -5,6 +5,12 @@ O objetivo é criar um **assistente nutricional inteligente**, capaz de gerar **
 
 ---
 
+# Preview do site
+
+> O site esta atualmente hospedado como prévia na vercel como [agentIA](https://agent-ia-beta.vercel.app)
+
+---
+
 ## 🚀 Visão Geral
 
 O **Agente IA** é um sistema composto por duas partes:
