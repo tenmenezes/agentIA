@@ -1,26 +1,24 @@
 "use client";
 
-import { DietForm } from "./_components/diet-from";
+import { RoadMapForm } from "./_components/roadmap-from";
 import { useState } from "react";
-import { DietGenerator } from "./_components/diet-generator";
-import { DietData } from "@/types/diet-data.type";
+import { RoadMapGenerator } from "./_components/roadmap-generator";
+import { RoadMapData } from "@/types/roadmap-data.type";
 
 export default function Home() {
+  const [data, setData] = useState<RoadMapData | null>(null);
 
-  const [data, setData] = useState<DietData | null>(null);
-
-  function handleSubmit(userInfo: DietData) {
-    setData(userInfo)
+  function handleSubmit(userInfo: RoadMapData) {
+    setData(userInfo);
   }
 
   return (
     <>
       {!data ? (
-          <DietForm onSubmit={handleSubmit} />
-        ) : (
-            <DietGenerator data={data} />
-        )
-      }
+        <RoadMapForm onSubmit={handleSubmit} />
+      ) : (
+        <RoadMapGenerator data={data} onBack={() => setData(null)} />
+      )}
     </>
   );
 }
