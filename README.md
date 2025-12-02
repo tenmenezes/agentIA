@@ -1,7 +1,7 @@
-# 🧠 Agente IA – Gerador de Planos Alimentares Personalizados
+# 🧠 Agente IA – Gerador de Roadmaps Personalizados
 
-Projeto desenvolvido por **Yago Menezes**, integrando **Next.js**, **OpenAI API**, **Zod**, e **TypeScript**.  
-O objetivo é criar um **assistente nutricional inteligente**, capaz de gerar **dietas semanais completas** e personalizadas conforme o perfil do usuário.
+Projeto desenvolvido por **Yago Menezes**, integrando **Next.js**, **TypeScript**, **Zod**, **OpenAI API** e **Tailwind CSS**.
+O objetivo é criar um **gerador inteligente de roadmaps personalizados**, capaz de montar rotas de estudo sob medida para cada usuário e permitir o download do relatório final em PDF.
 
 ---
 
@@ -13,7 +13,8 @@ O objetivo é criar um **assistente nutricional inteligente**, capaz de gerar **
 
 ## 🚀 Visão Geral
 
-O **Agente IA** é um sistema composto por duas partes:
+O **Agente IA** é uma aplicação full-stack construída diretamente no Next.js, usando API Routes para lidar com a geração do roadmap.
+Possui:
 
 - **Backend** → servidor Node.js / API REST (antigo projeto inicial)
 - **Frontend (Next.js)** → versão moderna e integrada, hospedada na **Vercel**
@@ -64,8 +65,8 @@ Atualmente, o site online é a **versão Next.js completa**, contendo a rota `/a
     │   ├── src
     │   │   ├── app
     │   │   │   ├── _components
-    │   │   │   │   ├── diet-from.tsx
-    │   │   │   │   └── diet-generator.tsx
+    │   │   │   │   ├── roadmap-from.tsx
+    │   │   │   │   └── roadmap-generator.tsx
     │   │   │   ├── api
     │   │   │   │   └── plan
     │   │   │   │       └── route.ts
@@ -85,7 +86,7 @@ Atualmente, o site online é a **versão Next.js completa**, contendo a rota `/a
     │   │   ├── lib
     │   │   │   └── utils.ts
     │   │   └── types
-    │   │       └── diet-data.type.ts
+    │   │       └── roadmap-data.type.ts
     │   ├── .gitignore
     │   ├── components.json
     │   ├── next-env.d.ts
@@ -104,32 +105,32 @@ A IA utiliza três funções principais que estruturam o comportamento e o tom d
 
 ## 1️⃣ buildSystemPrompt()
 
-Define a personalidade da IA Nutricionista, incluindo regras fixas:
+Define a personalidade da IA de RoadMap, incluindo regras fixas:
 
-- Gera dietas semanais com 7 dias e 4 refeições por dia;
+- Tom profissional, claro e didático;
 
 - Sempre responde em Markdown legível;
 
 - Usa linguagem acolhedora e profissional;
 
-- Evita calorias, macros ou fórmulas explícitas;
+- Estrutura obrigatória do roadmap (etapas, tópicos, materiais, sugestões);
 
-- Traz variações e substituições alimentares comuns no Brasil.
+- Entregas organizadas e fáceis de seguir.
 
 ## 2️⃣ buildUserPrompt()
 
 Constrói o contexto do usuário, usando seus dados:
 
-- Nome, idade, peso, altura, sexo, nível de atividade e objetivo;
+- Nome, área/atuação, duração, tempo disponível, nível na área, idioma do roadmap (sim, ele gera  tanto em idiomas diferentes) e foco principal;
 
-- Adapta o plano conforme “ganho de peso”, “perda de peso” ou “manutenção”;
+- Objetivo de carreira (ex.: front-end, backend, IA, segurança);
 
 - Mantém linguagem motivacional e personalizada.
 
 ## 3️⃣ buildDocsPrompt()
 
-Inclui o documento técnico de diretrizes nutricionais (diretrizes.md), usado como base científica oculta.
-A IA consulta internamente esse arquivo para formular respostas coerentes, mas sem exibir dados técnicos.
+Insere os arquivos de conhecimento internos do projeto (estrutura do roadmap, diretrizes, padrões).
+A IA usa estes documentos para manter consistência e profundidade.
 
 ## 🧩 Rota da API (/api/plan)
 
@@ -153,7 +154,7 @@ Content-Type: application/json
 
 ## 🖥️ Frontend (Componente Principal)
 
-### O componente DietGenerator.tsx faz:
+### O componente RoadMapGenerator.tsx faz:
 
 - A requisição para /api/plan
 
@@ -167,7 +168,17 @@ Content-Type: application/json
 
 ### Botões principais:
 
-- Gerar dieta → inicia/parar streaming
+- Gerar RoadMap → inicia/parar streaming
+- Baixar PDF → Instalação do documento em pdf com markdown convertido
+
+### Exportação em PDF:
+
+O usuário pode baixar o roadmap completo em PDF com um clique.
+O arquivo é gerado diretamente no navegador, mantendo:
+
+- formatação Markdown convertida
+- títulos e hierarquia
+- listas e seções do roadmap
 
 ---
 
@@ -221,43 +232,39 @@ Clicar em Deploy.
 
 Preenchendo os dados do usuário:
 ```
+POST /api/plan
 {
   "nome": "Yago",
-  "idade": 18,
-  "altura_cm": 184,
-  "peso_kg": 60,
-  "sexo": "masculino",
-  "nivel_atividade": "sedentário",
-  "objetivo": "ganho de peso saudável"
+  "objetivo": "Desenvolvedor Front-end",
+  "nivel": "iniciante",
+  "horas_semanais": 10
 }
 ```
 
 A IA retorna em tempo real um plano alimentar semanal, com estrutura Markdown:
 ```
-# Plano Alimentar Semanal – Foco em Ganho de Peso Saudável
+# 🌐 Roadmap de Estudo para Frontend - Yago
+## Visão Geral
+Neste roadmap de 7 dias, você, Yago, vai adquirir os fundamentos essenciais do desenvolvimento frontend usando tecnologias modernas. O foco é facilitar a sua compreensão da construção de sites e aplicações web, culminando em um projeto final que você poderá adicionar ao seu portfólio. A jornada inclui o aprendizado de HTML5, CSS3, JavaScript, TypeScript, React e boas práticas de desenvolvimento.
 
-Olá Yago!  
-Baseando-se no seu perfil, criamos uma dieta para auxiliar no aumento de massa magra, com alimentos naturais, proteínas de qualidade e carboidratos energéticos.
+## Estrutura do Roadmap
+### Semana 1: Fundamentos do Frontend
+**Objetivo**: Construir uma base sólida para o desenvolvimento web.
 
----
-
-## 🥣 Segunda-feira
-**Café da Manhã:**  
-- 3 ovos mexidos  
-- 2 fatias de pão integral  
-- 1 banana com pasta de amendoim  
-
+Dia 1: Introdução à Web
+**Tópicos**: O que é a Web? Estrutura de uma página web (HTML, CSS, JavaScript).
+**Tarefas**: ...
 ...
 ```
 ## 🧩 Melhorias Futuras
 
-- 📄 Exportar dieta em PDF diretamente do navegador
+- 📄 Exportar dieta em PDF diretamente do navegador - (Feito)
 
-- 📊 Dashboard com gráficos de macronutrientes
+- 📊 Dashboard com gráficos
 
 - 🧬 Personalização automática com histórico do usuário
 
-- 🗓️ Ajuste automático conforme evolução semanal
+- 🗓️ Ajuste automático flexível - (Feito)
 
 ---
 
